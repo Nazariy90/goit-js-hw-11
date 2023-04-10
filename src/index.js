@@ -11,13 +11,16 @@ const unsplashApi = new UnsplashApi();
 
 const onSearchFormSubmit = event => {
   event.preventDefault();
+
   const { target: formEl } = event;
-  unsplashApi.query = formEl.elements.searchQuery.value;
+
+  unsplashApi.query = formEl.elements.searchQuery.value.trim();
+  unsplashApi.page = 1;
 
   unsplashApi
     .fetchPhotosByQuery()
     .then(data => {
-      if (data.hits.length === 0) {
+      if (data.total === 0) {
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
@@ -25,6 +28,7 @@ const onSearchFormSubmit = event => {
         itemListFoo(data);
         loadBtn.classList.remove('is-hidden');
       }
+      console.log(data);
     })
     .catch(err => {
       //   console.log(err);
@@ -35,7 +39,12 @@ function itemListFoo(arr) {
   const markup = arr.hits
     .map(item => {
       return `<div class="photo-card">
-  <img src="${item.webformatURL}" alt="${item.tags}" loading="lazy" wight 200px/>
+  <img
+    src="${item.webformatURL}"
+    alt="${item.tags}"
+    loading="lazy"
+    width="200px"
+  />
   <div class="info">
     <p class="info-item">
       <b>Likes ${item.likes}</b>
@@ -63,6 +72,12 @@ const onLoadBtn = event => {
     .fetchPhotosByQuery()
     .then(data => {
       galleryEl.insertAdjacentHTML('beforeend', itemListFoo(data));
+      //     if (unsplashApi.page === data.totalHits) {
+      //       loadBtn.classList.add('is-hidden');
+      //   Notiflix.Notify.failure(
+      //     'We're sorry, but you've reached the end of search results.'
+      //   );
+      //     }
     })
     .catch(err => {
       console.log(err);
