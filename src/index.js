@@ -6,7 +6,7 @@ const searchFormEl = document.getElementById('search-form');
 const galleryEl = document.querySelector('.gallery');
 const loadBtn = document.querySelector('.load-more');
 const unsplashApi = new UnsplashApi();
-const per_page = 4;
+const per_page = 5;
 
 // console.log(unsplashApi);
 
@@ -28,6 +28,11 @@ const onSearchFormSubmit = event => {
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
+        return;
+      }
+
+      if (data.totalHits <= per_page) {
+        galleryEl.innerHTML = itemListFoo(data);
         return;
       } else {
         galleryEl.innerHTML = itemListFoo(data);
