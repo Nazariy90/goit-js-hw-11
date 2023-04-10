@@ -4,6 +4,7 @@ export class UnsplashApi {
 
   constructor() {
     this.query = '';
+    this.per_page = 5;
     this.page = 1;
   }
 
@@ -14,7 +15,7 @@ export class UnsplashApi {
       orientation: 'horizontal',
       safesearch: 'true',
       page: this.page,
-      per_page: 4,
+      per_page: this.per_page,
     });
     return fetch(
       `${UnsplashApi.BASE_URL}/api/?key=${UnsplashApi.KEY}&${searchParams}`
