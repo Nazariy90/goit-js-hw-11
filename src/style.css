@@ -1,15 +1,11 @@
-/* body {
-    background-color: #00e1ff1c;
-} */
-
 .container {
     width: 1158px;
     margin-left: auto;
     margin-right: auto;
 
-    padding-top: 5px;
+    padding-top: 1px;
     padding-bottom: 20px;
-    padding-left: 15px;
+    padding-left: 16px;
     padding-right: 15px;
     background-color: blue;
 }
@@ -35,4 +31,12 @@
 
 .load-more.is-hidden {
     display: none;
+}
+
+.photo-card {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 24px;
+    row-gap: 48px;
+    padding: 0;
 }

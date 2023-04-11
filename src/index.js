@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import Notiflix from 'notiflix';
 import { UnsplashApi } from './backend-foo';
 
@@ -6,43 +5,75 @@ const searchFormEl = document.getElementById('search-form');
 const galleryEl = document.querySelector('.gallery');
 const loadBtn = document.querySelector('.load-more');
 const unsplashApi = new UnsplashApi();
-const per_page = 5;
+const per_page = 4;
 
-// console.log(unsplashApi);
+// const onSearchFormSubmit = event => {
+//   event.preventDefault();
 
-const onSearchFormSubmit = event => {
+//   const { target: formEl } = event;
+
+//   unsplashApi.query = formEl.elements.searchQuery.value;
+//   unsplashApi.page = 1;
+//   unsplashApi.per_page = per_page;
+
+//   unsplashApi
+//     .fetchPhotosByQuery()
+//     .then(({ data } = {}) => {
+//       console.log(data);
+//       if (data.total === 0) {
+//         galleryEl.innerHTML = '';
+//         loadBtn.classList.add('is-hidden');
+//         Notiflix.Notify.failure(
+//           'Sorry, there are no images matching your search query. Please try again.'
+//         );
+//         return;
+//       }
+//       if (data.totalHits <= per_page) {
+//         galleryEl.innerHTML = itemListFoo(data);
+//         return;
+//       } else {
+//         galleryEl.innerHTML = itemListFoo(data);
+//         loadBtn.classList.remove('is-hidden');
+//       }
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// };
+
+const onSearchFormSubmit = async event => {
   event.preventDefault();
 
   const { target: formEl } = event;
 
-  unsplashApi.query = formEl.elements.searchQuery.value.trim();
+  unsplashApi.query = formEl.elements.searchQuery.value;
   unsplashApi.page = 1;
   unsplashApi.per_page = per_page;
 
-  unsplashApi
-    .fetchPhotosByQuery()
-    .then(data => {
-      if (data.total === 0) {
-        galleryEl.innerHTML = '';
-        loadBtn.classList.add('is-hidden');
-        Notiflix.Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-        return;
-      }
+  try {
+    const { data } = await unsplashApi.fetchPhotosByQuery();
 
-      if (data.totalHits <= per_page) {
-        galleryEl.innerHTML = itemListFoo(data);
-        return;
-      } else {
-        galleryEl.innerHTML = itemListFoo(data);
-        loadBtn.classList.remove('is-hidden');
-      }
-      console.log(data);
-    })
-    .catch(err => {
-      //   console.log(err);
-    });
+    console.log(data);
+
+    if (data.total === 0) {
+      galleryEl.innerHTML = '';
+      loadBtn.classList.add('is-hidden');
+      Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      return;
+    }
+
+    if (data.totalHits <= per_page) {
+      galleryEl.innerHTML = itemListFoo(data);
+      return;
+    } else {
+      galleryEl.innerHTML = itemListFoo(data);
+      loadBtn.classList.remove('is-hidden');
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 function itemListFoo(arr) {
@@ -74,23 +105,43 @@ function itemListFoo(arr) {
     .join('');
 }
 
-const onLoadBtn = event => {
-  unsplashApi.page += 1;
+// const onLoadBtn = event => {
+//   unsplashApi.page += 1;
 
-  unsplashApi
-    .fetchPhotosByQuery()
-    .then(data => {
-      galleryEl.insertAdjacentHTML('beforeend', itemListFoo(data));
-      if (unsplashApi.page * per_page >= data.totalHits) {
-        loadBtn.classList.add('is-hidden');
-        Notiflix.Notify.failure(
-          "We're sorry, but you've reached the end of search results."
-        );
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
+//   unsplashApi
+//     .fetchPhotosByQuery()
+//     .then(response => {
+//       const { data } = response;
+//       galleryEl.insertAdjacentHTML('beforeend', itemListFoo(data));
+//       if (unsplashApi.page * per_page >= data.totalHits) {
+//         loadBtn.classList.add('is-hidden');
+//         Notiflix.Notify.failure(
+//           "We're sorry, but you've reached the end of search results."
+//         );
+//       }
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// };
+
+const onLoadBtn = async event => {
+  try {
+    unsplashApi.page += 1;
+
+    const response = await unsplashApi.fetchPhotosByQuery();
+    const { data } = response;
+    galleryEl.insertAdjacentHTML('beforeend', itemListFoo(data));
+
+    if (unsplashApi.page * per_page >= data.totalHits) {
+      loadBtn.classList.add('is-hidden');
+      Notiflix.Notify.failure(
+        "We're sorry, but you've reached the end of search results."
+      );
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 searchFormEl.addEventListener('submit', onSearchFormSubmit);
