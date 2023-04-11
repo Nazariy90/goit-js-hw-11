@@ -33,10 +33,22 @@
     display: none;
 }
 
-.photo-card {
+.gallery {
+    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     column-gap: 24px;
     row-gap: 48px;
     padding: 0;
+    justify-content: center;
+    align-items: center;
 }
+
+.info-item {
+    font-size: 14px;
+}
+
+/* .photo-card {
+    width: 150px;
+    height: 150px;
+} */

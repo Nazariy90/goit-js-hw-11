@@ -6,7 +6,7 @@ export class UnsplashApi {
 
   constructor() {
     this.query = '';
-    this.per_page = 5;
+    this.per_page = 40;
     this.page = 1;
   }
 
