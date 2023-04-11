@@ -7,6 +7,12 @@
     box-shadow: 2px 2px 5px 10px #ccd1f0;
 }
 
+input,
+textarea {
+    outline: none;
+    border: none;
+}
+
 .search-form {
     display: flex;
     align-items: center;
@@ -44,6 +50,11 @@
     margin-right: auto;
 }
 
+.photo-card {
+    border: 1px solid #e7e9fc;
+    border-top: none;
+}
+
 .info-item {
     font-size: 14px;
 }
@@ -51,5 +62,4 @@
 .photo-item {
     width: 250px;
     height: 180px;
-
 }
