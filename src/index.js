@@ -84,6 +84,17 @@ function itemListFoo(arr) {
     .join('');
 }
 
+const scrollToNextGroup = () => {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+  const scrollDistance = cardHeight * 2;
+  window.scrollBy({
+    top: scrollDistance,
+    behavior: 'smooth',
+  });
+};
+
 const onLoadBtn = async event => {
   try {
     unsplashApi.page += 1;
@@ -102,6 +113,7 @@ const onLoadBtn = async event => {
         "We're sorry, but you've reached the end of search results."
       );
     }
+    scrollToNextGroup();
   } catch (err) {
     console.log(err);
   }
