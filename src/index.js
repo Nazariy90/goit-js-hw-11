@@ -37,6 +37,11 @@ const onSearchFormSubmit = async event => {
       return;
     } else {
       galleryEl.innerHTML = itemListFoo(data);
+      let simpleLightBox = new SimpleLightbox('.gallery a', {
+        captionsData: 'alt',
+        captionDelay: 250,
+      });
+      simpleLightBox.refresh();
       loadBtn.classList.remove('is-hidden');
       Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
     }
@@ -49,12 +54,12 @@ function itemListFoo(arr) {
   return arr.hits
     .map(item => {
       return `<div class="photo-card">
+      <a class="photo-link" href="${item.largeImageURL}">
   <img class = "photo-item"
     src="${item.webformatURL}"
     alt="${item.tags}"
-    loading="lazy"
- 
-  />
+    loading="lazy"/>
+    </a>
   <div class="info">
     <p class="info-item">
       <b>Likes ${item.likes}</b>
@@ -81,7 +86,11 @@ const onLoadBtn = async event => {
     const response = await unsplashApi.fetchPhotosByQuery();
     const { data } = response;
     galleryEl.insertAdjacentHTML('beforeend', itemListFoo(data));
-
+    let simpleLightBox = new SimpleLightbox('.gallery a', {
+      captionsData: 'alt',
+      captionDelay: 250,
+    });
+    simpleLightBox.refresh();
     if (unsplashApi.page * per_page >= data.totalHits) {
       loadBtn.classList.add('is-hidden');
       Notiflix.Notify.failure(
