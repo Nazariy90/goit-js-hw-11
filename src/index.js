@@ -62,16 +62,16 @@ function itemListFoo(arr) {
     </a>
   <div class="info">
     <p class="info-item">
-      <b>Likes ${item.likes}</b>
+      <b>Likes</b> ${item.likes}
     </p>
     <p class="info-item">
-      <b>Views ${item.views}</b>
+      <b>Views</b> ${item.views}
     </p>
     <p class="info-item">
-      <b>Comments ${item.comments}</b>
+      <b>Comments</b> ${item.comments}
     </p>
     <p class="info-item">
-      <b>Downloads ${item.downloads}</b>
+      <b>Downloads</b> ${item.downloads}
     </p>
   </div>
 </div>`;
