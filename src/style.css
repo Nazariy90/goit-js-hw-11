@@ -56,10 +56,28 @@ textarea {
 }
 
 .info-item {
-    font-size: 14px;
+    font-size: 11px;
 }
 
 .photo-item {
     width: 250px;
     height: 180px;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: space-around;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-content: normal;
+    align-items: center;
+}
+
+.info-item b {
+    margin-bottom: 5px;
 }

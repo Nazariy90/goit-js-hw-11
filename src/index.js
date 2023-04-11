@@ -62,7 +62,7 @@ function itemListFoo(arr) {
     </a>
   <div class="info">
     <p class="info-item">
-      <b>Likes</b> ${item.likes}
+      <b>Likes</b>${item.likes}
     </p>
     <p class="info-item">
       <b>Views</b> ${item.views}
