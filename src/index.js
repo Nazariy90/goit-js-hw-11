@@ -1,5 +1,7 @@
 import Notiflix from 'notiflix';
 import { UnsplashApi } from './backend-foo';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const searchFormEl = document.getElementById('search-form');
 const galleryEl = document.querySelector('.gallery');
@@ -18,7 +20,6 @@ const onSearchFormSubmit = async event => {
 
   try {
     const { data } = await unsplashApi.fetchPhotosByQuery();
-
     console.log(data);
 
     if (data.total === 0) {
@@ -32,7 +33,6 @@ const onSearchFormSubmit = async event => {
 
     if (data.totalHits <= per_page) {
       galleryEl.innerHTML = itemListFoo(data);
-      console.log(data.totalHits);
       Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
       return;
     } else {
@@ -49,11 +49,11 @@ function itemListFoo(arr) {
   return arr.hits
     .map(item => {
       return `<div class="photo-card">
-  <img
+  <img class = "photo-item"
     src="${item.webformatURL}"
     alt="${item.tags}"
     loading="lazy"
-    width="250px"
+ 
   />
   <div class="info">
     <p class="info-item">

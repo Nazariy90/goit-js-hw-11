@@ -4,6 +4,7 @@
     padding-top: 1px;
     padding-bottom: 20px;
     background-color: blue;
+    box-shadow: 2px 2px 5px 10px #ccd1f0;
 }
 
 .search-form {
@@ -47,7 +48,8 @@
     font-size: 14px;
 }
 
-/* .photo-card {
-    width: 150px;
-    height: 150px;
-} */
+.photo-item {
+    width: 250px;
+    height: 180px;
+
+}
