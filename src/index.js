@@ -32,10 +32,13 @@ const onSearchFormSubmit = async event => {
 
     if (data.totalHits <= per_page) {
       galleryEl.innerHTML = itemListFoo(data);
+      console.log(data.totalHits);
+      Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
       return;
     } else {
       galleryEl.innerHTML = itemListFoo(data);
       loadBtn.classList.remove('is-hidden');
+      Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
     }
   } catch (err) {
     console.log(err);
