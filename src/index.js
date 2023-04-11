@@ -33,6 +33,11 @@ const onSearchFormSubmit = async event => {
 
     if (data.totalHits <= per_page) {
       galleryEl.innerHTML = itemListFoo(data);
+      let simpleLightBox = new SimpleLightbox('.gallery a', {
+        captionsData: 'alt',
+        captionDelay: 250,
+      });
+      simpleLightBox.refresh();
       Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
       return;
     } else {
