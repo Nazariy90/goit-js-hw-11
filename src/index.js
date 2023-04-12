@@ -1,4 +1,4 @@
-import Notiflix from 'notiflix';
+import { Notify } from 'notiflix';
 import { UnsplashApi } from './backend-foo';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
@@ -8,6 +8,10 @@ const galleryEl = document.querySelector('.gallery');
 const loadBtn = document.querySelector('.load-more');
 const unsplashApi = new UnsplashApi();
 const per_page = 40;
+let simpleLightBox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
 const onSearchFormSubmit = async event => {
   event.preventDefault();
@@ -25,7 +29,7 @@ const onSearchFormSubmit = async event => {
     if (data.total === 0) {
       galleryEl.innerHTML = '';
       loadBtn.classList.add('is-hidden');
-      Notiflix.Notify.failure(
+      Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
       return;
@@ -33,22 +37,14 @@ const onSearchFormSubmit = async event => {
 
     if (data.totalHits <= per_page) {
       galleryEl.innerHTML = itemListFoo(data);
-      let simpleLightBox = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionDelay: 250,
-      });
       simpleLightBox.refresh();
-      Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+      Notify.success(`Hooray! We found ${data.totalHits} images.`);
       return;
     } else {
       galleryEl.innerHTML = itemListFoo(data);
-      let simpleLightBox = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionDelay: 250,
-      });
       simpleLightBox.refresh();
       loadBtn.classList.remove('is-hidden');
-      Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+      Notify.success(`Hooray! We found ${data.totalHits} images.`);
     }
   } catch (err) {
     console.log(err);
@@ -102,14 +98,10 @@ const onLoadBtn = async event => {
     const response = await unsplashApi.fetchPhotosByQuery();
     const { data } = response;
     galleryEl.insertAdjacentHTML('beforeend', itemListFoo(data));
-    let simpleLightBox = new SimpleLightbox('.gallery a', {
-      captionsData: 'alt',
-      captionDelay: 250,
-    });
     simpleLightBox.refresh();
     if (unsplashApi.page * per_page >= data.totalHits) {
       loadBtn.classList.add('is-hidden');
-      Notiflix.Notify.failure(
+      Notify.failure(
         "We're sorry, but you've reached the end of search results."
       );
     }
